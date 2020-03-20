@@ -1,0 +1,15 @@
+# mod_rewrite starts here
+RewriteEngine on
+
+# does not apply to existing directories, meaning tat if the folder exixts on the server then dont's changen anything and dont't run teh Rule
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Check for file in directorie with .php extension
+RewriteCond %{REQUEST_FILENAME}\.php -f
+
+# Here we actually show the page that has the .php extension
+RewriteRule ^(.*)$ $1.php [NC,L]
+
+# Send user to error 404 page when page does not exist
+ErrorDocument 404 /page-not-found
+
