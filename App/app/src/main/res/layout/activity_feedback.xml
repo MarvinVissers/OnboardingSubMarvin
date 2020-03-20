@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvTitel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/frutigerltstdblack"
+            android:text="Gegevens Controleren"
+            android:textAlignment="center"
+            android:textColor="@color/colorTitle"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.128"
+            tools:text="Gegevens controller" />
+
+        <!-- Table layout om alles onder elkaar te zetten -->
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="409dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="35dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.242">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvGegevensCorrect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/frutigerltstdblack"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="5dp"
+                    android:text="Zijn de volgende gegevens correct?"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/colorHeader2"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvStudentNaam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:fontFamily="@font/frutigerltstdblack"
+                    android:gravity="fill_horizontal|left"
+                    android:paddingStart="15dp"
+                    android:text="Ietsjes"
+                    android:textColor="@color/colorHeader2"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvStudentOpleiding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/frutigerltstdblack"
+                    android:gravity="fill_horizontal|left"
+                    android:paddingLeft="15dp"
+                    android:text="Opleiding 5"
+                    android:textColor="@color/colorHeader2"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="10dp">
+
+                <!-- Radio button groep voor het selecteren of de gegevens correct zijn -->
+                <RadioGroup
+                    android:id="@+id/rbGroupGegevensCorrect"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".90"
+                    android:drawingCacheQuality="auto"
+                    android:orientation="horizontal"
+                    android:paddingLeft="50dp">
+
+                    <RadioButton
+                        android:id="@+id/rbGegevensCorrectNee"
+                        android:layout_width="190dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:fontFamily="@font/frutigerltstdblack"
+                        android:onClick="opslaanGegevensCorrect"
+                        android:text="Nee"
+                        android:textColor="@color/colorAccent1"
+                        android:layout_gravity="right|center"
+                        android:layoutDirection="ltr" />
+
+                    <RadioButton
+                        android:id="@+id/rbGegevensCorrectJa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/frutigerltstdblack"
+                        android:onClick="opslaanGegevensCorrect"
+                        android:text="Ja"
+                        android:textColor="@color/colorAccent1" />
+                </RadioGroup>
+            </TableRow>
+
+            <TableLayout>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/tvScheidingGegevensFeedback"
+                        android:layout_width="250dp"
+                        android:layout_height="5dp"
+                        android:layout_marginLeft="50dp"
+                        android:background="@drawable/scheiding_gegevens_feedback"
+                        android:gravity="center"
+                        android:text=""
+                        android:textAlignment="center" />
+                </TableRow>
+            </TableLayout>
+        </TableLayout>
+
+        <!-- Titel het feedback gedeelte -->
+
+        <TextView
+            android:id="@+id/tvFeedbackTitel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/frutigerltstdblack"
+            android:padding="5dp"
+            android:paddingBottom="25dp"
+            android:text="Feedback"
+            android:textAlignment="center"
+            android:textColor="@color/colorTitle"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="45dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.431"
+            tools:text="Feedback" />
+
+        <TableLayout
+            android:id="@+id/tableLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvFeedbackTitel"
+            app:layout_constraintVertical_bias="1.0">
+
+            <TableRow>
+                <TableLayout
+                    android:id="@+id/tableLayout3"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content">
+
+                    <TableRow>
+
+                        <TextView
+                            android:id="@+id/tvFeedbackSlecht"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_thumbs_up"
+                            android:layout_marginLeft="20dp"
+                            android:rotation="180" />
+
+                        <TextView
+                            android:id="@+id/tvFeedbackGoed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_thumbs_up"
+                            android:layout_marginLeft="275dp" />
+                    </TableRow>
+                </TableLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp">
+
+                <!-- Seekbar voor de feedback, achtergrond wordt in de activity gegeven -->
+                <SeekBar
+                    android:id="@+id/skScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10px"
+                    android:max="100"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
+                    android:progress="50"
+                    android:thumbOffset="-20dp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvFeedback"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/frutigerltstdblack"
+                    android:paddingLeft="20dp"
+                    android:text="Wat vond je leuk aan de onboarding?"
+                    android:textColor="@color/colorHeader2"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+                <EditText
+                    android:id="@+id/txtFeedback"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/frutigerltstdblack"
+                    android:gravity="start|top"
+                    android:hint="Je mag het invullen, maar het hoeft niet ;)"
+                    android:inputType="textMultiLine"
+                    android:textSize="12sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btnVerstuurFeedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/feedback_button"
+                    android:fontFamily="@font/frutigerltstdblack"
+                    android:onClick="opslaanFeedback"
+                    android:text="Geef feedback"
+                    android:textColor="#FFFFFF" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/tvWeetje"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="Tip: Wist je dat deze onboarding door studenten is gemaakt?"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorHeader2"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <!-- TableLayout voor de voortgang van pagina's-->
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:stretchColumns="1">
+
+                        <TextView
+                            android:id="@+id/tvPagina1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+                            android:layout_marginLeft="100dp"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/pagina_bol_geweest"
+                            android:text="" />
+
+                        <TextView
+                            android:id="@+id/tvPagina2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/pagina_bol_geweest"
+                            android:text="" />
+
+                        <TextView
+                            android:id="@+id/tvPagina3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/pagina_bol_geweest"
+                            android:text="" />
+
+                        <TextView
+                            android:id="@+id/tvPagina4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/pagina_bol_geweest"
+                            android:text="" />
+
+                        <TextView
+                            android:id="@+id/tvPagina5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/pagina_bol_geweest"
+                            android:text="" />
+
+                        <TextView
+                            android:id="@+id/tvPagina6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/pagina_bol_niet_geweest"
+                            android:text="" />
+                    </TableRow>
+
+                </TableLayout>
+            </TableRow>
+
+        </TableLayout>
+
+        <RelativeLayout
+            android:layout_width="417dp"
+            android:layout_height="736dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:id="@+id/tvBolLogoRechts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+
+                android:layout_marginEnd="-50dp"
+                android:layout_marginTop="-110dp"
+                android:background="@drawable/bol_logo_rechts"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tvBolLogoLinks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="-140dp"
+                android:layout_marginTop="-140dp"
+                android:layout_marginEnd="96dp"
+                android:background="@drawable/bol_logo_links"
+                android:text="" />
+
+            <!-- Textview aanmaken voor het studentnummer, niet zichtbaar voor gebruiker -->
+            <TextView
+                android:id="@+id/tvStudentnummer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:visibility="invisible"/>
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
