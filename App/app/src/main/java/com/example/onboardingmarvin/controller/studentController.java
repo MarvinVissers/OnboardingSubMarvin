@@ -1,4 +1,4 @@
-package com.example.on_boarding.controller;
+package com.example.onboardingmarvin.controller;
 
 import android.content.Context;
 import android.widget.TextView;
