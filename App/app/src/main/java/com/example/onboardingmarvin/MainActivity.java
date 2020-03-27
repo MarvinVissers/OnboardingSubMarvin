@@ -25,26 +25,32 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class MainActivity extends AppCompatActivity{
 
-    // Classes importeren
-    private StudentModal mdlStudent;
+// Classes importeren
     private VolleyHelper helper;
+    private studentController ctrlStudent;
 
-    // Lijst aanmaken voor studentgegevens
-    private ArrayList<StudentModal> student;
+    private TextView tvStudentGegevens;
 
-    // Studentnummer aanmaken
-    private int iStudentnummer;
-
-    /**
-     *
-     * @param savedInstanceState Zorgt dat als de activity wordt aangeroepen dat er ook xml wordt aangesproken
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
+
+        // Studentnummer ophalen
+        Intent mainIntent = getIntent();
+        Bundle bundle = mainIntent.getExtras();
+        int iStudentnummer = bundle.getInt("student");
+
+        // Student gegevens ophalen
+        tvStudentGegevens = findViewById(R.id.tvStudentGegevens);
+
+        // Student controller aanspreken
+        this.ctrlStudent = new studentController(getBaseContext(), tvStudentGegevens, 5, iStudentnummer);
+
+        // Student ophalen via de api
+        ctrlStudent.getStudent();
 
         /*
          * Feedback seekbar gradient achtergrond geven
@@ -63,12 +69,17 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         // Seekbar ophalen en figuur meegeven
         SeekBar skFeedbackScore = findViewById(R.id.skScore);
         skFeedbackScore.setProgressDrawable(feedbackSeekbar);
+    }
 
-        // Gegevens doorsturen naar database sturen
-        helper = new VolleyHelper(getBaseContext(), "http://145.48.226.202:8000/bp3api");
-        helper.get("GetStudent?studentnummer=" + iStudentnummer, null, this, this);
+    // Gebruiker naar volgende pagina sturen
+    public void naarLaaststeScherm(View v) {
+        Intent mainIntent = getIntent();
+        Bundle bundle = mainIntent.getExtras();
+        int iStudentnummer = bundle.getInt("student");
 
-        System.out.println("http://145.48.226.202:8000/bp3api/GetStudent?studentnummer=" + iStudentnummer);
+        Intent intent = new Intent(this, LastScreenActivity.class);
+        intent.putExtra("student", iStudentnummer);
+        startActivity(intent);
     }
 
     /**
@@ -85,24 +96,15 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
             // Studentnummer ophalen
             TextView tvStudentnummer = findViewById(R.id.tvStudentnummer);
 
-            // Studentnummer tekst zetten in variabele
-            iStudentnummer = Integer.parseInt(tvStudentnummer.getText().toString());
-
             // Kijken of de gegevens correct zijn of niet
             if(rbGegevensCorrectNee.isChecked()){
-                // Gegevens doorsturen naar database sturen
-                helper = new VolleyHelper(getBaseContext(), "http://145.48.226.202:8000/bp3api");
-                helper.get("UpdateStudent?studentnummer=" + iStudentnummer + "&gegevens-correct=" + 0, null, this, this);
-
-                System.out.println("http://192.168.2.6:8000/bp3api/UpdateStudent?studentnummer=" + iStudentnummer + "&gegevens-correct=" + 0);
+                // Gegevens doorsturen naar de student controller
+                ctrlStudent.opslaanGegevensCorrect(0);
             }
             // Else if voor als er iets fout gaat wordt het niet zomaar geupdated in de database
             else if(rbGegevensCorrectJa.isChecked()){
-                // Gegevens doorsturen naar database sturen
-                helper = new VolleyHelper(getBaseContext(), "http://145.48.226.202:8000/bp3api");
-                helper.get("UpdateStudent?studentnummer=" + iStudentnummer + "&gegevens-correct=" + 1, null, this, this);
-
-                System.out.println("http://192.168.2.6:8000/bp3api/UpdateStudent?studentnummer=" + iStudentnummer + "&gegevens-correct=" + 1);
+                // Gegevens doorsturen naar de student controller
+                ctrlStudent.opslaanGegevensCorrect(1);
             }
         }catch(Exception error) {
             System.out.println(error);
@@ -122,57 +124,10 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         int iScore = skFeedbackScore.getProgress();
         String sOpmerking = txtFeedbackOpmerking.getText().toString();
 
-        //System.out.println("Score is " + iScore + " en opmerking is " + sOpmerking);
-
         // Opmerking url friendly maken
         sOpmerking = sOpmerking.replaceAll(" ", "%20");
 
-        helper = new VolleyHelper(getBaseContext(), "http://145.48.226.202:8000/bp3api");
-        helper.post("SaveFeedback?score=" + iScore + "&opmerking=" + sOpmerking, null, this, this);
-
-        System.out.println("http://192.168.2.6:8000/bp3api/SaveFeedback?score=" + iScore + "&opmerking=" + sOpmerking);
+        // Gegevens doorsturen naar de student controller
+        ctrlStudent.opslaanFeedback(iScore, sOpmerking);
     }
-
-    /**
-     *
-     * @param error Als er een error is met het ophalen van json
-     */
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        System.out.println(error);
-    }
-
-    /**
-     *
-     * @param response Wat er gebeurt als er json teruggegeven wordt uit de api
-     */
-    @Override
-    public void onResponse(JSONObject response) {
-        try {
-            // JSONArray ophalen
-            JSONArray array = response.getJSONArray("item");
-
-            // Kijken of deze leeg is, zodat er geen error onstaat bij geven feedback of gegevens correct
-            if(array != null && array.length() > 0 ) {
-                for (int i = 0; i < array.length(); i++) {
-                    student.add(new StudentModal(array.getJSONObject(i)));
-                }
-
-                TextView tvStudentNaam = findViewById(R.id.tvStudentNaam);
-                TextView tvStudentOpleiding = findViewById(R.id.tvStudentOpleiding);
-                TextView tvStudentnummer = findViewById(R.id.tvStudentnummer);
-
-                // Door de array lopen
-                for (StudentModal StudentArray : student) {
-                    // Teksvelden vullen met gegevens student
-                    tvStudentNaam.setText(StudentArray.getStudentVoornaam() + " " + StudentArray.getStudentAchternaam());
-                    tvStudentOpleiding.setText(StudentArray.getStudentOpleiding());
-                    tvStudentnummer.setText(StudentArray.getStudentNummer());
-                }
-            }
-        }catch (JSONException e){
-            System.out.println(e);
-        }
-    }
-
 }
