@@ -1,10 +1,11 @@
-package com.example.onboardingmarvin.controller;
+package com.example.on_boarding.controller;
 
 import android.content.Context;
 import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.example.on_boarding.helper.Persoon;
 import com.example.on_boarding.helper.VolleyHelper;
 import com.example.on_boarding.modal.Student;
 
@@ -14,7 +15,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class studentController implements Response.ErrorListener, Response.Listener<JSONObject> {
+public class studentController implements Response.ErrorListener, Response.Listener<JSONObject>, Persoon {
 
     // Classes importeren
     private VolleyHelper helper;
@@ -42,26 +43,10 @@ public class studentController implements Response.ErrorListener, Response.Liste
     /**
      * Student ophalen uit de api
      */
+    @Override
     public void getStudent(){
         // Gegevens doorsturen naar database sturen
         helper.get("GetStudent?studentnummer=" + iStudentnummer, null, this, this);
-    }
-
-    /**
-     * @param iGegevensCorrect 1 of 0. 1 staat ervoor dat de student zijn of haar gegevens correct zijn en 0 dat de gegevens van de student incorrect zijn.
-     */
-    public void opslaanGegevensCorrect(int iGegevensCorrect) {
-        // Gegevens doorsturen naar database sturen
-        helper.post("UpdateStudent?studentnummer=" + iStudentnummer + "&gegevens-correct=" + iGegevensCorrect, null, null, this);
-    }
-
-    /**
-     * @param iScore De score van de feedback die is gegeven. 1 tot 100
-     * @param sOpmerking De opmerking die bij de feeedback is gegevens. Kan leeg zijn.
-     */
-    public void opslaanFeedback(int iScore, String sOpmerking) {
-        // Gegevens doorsturen naar database sturen
-        helper.post("SaveFeedback?score=" + iScore + "&opmerking=" + sOpmerking, null, null, this);
     }
 
     /**

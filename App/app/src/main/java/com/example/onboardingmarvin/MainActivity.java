@@ -1,14 +1,12 @@
-package com.example.onboardingmarvin;
+package com.example.on_boarding;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
@@ -16,8 +14,10 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.example.onboardingmarvin.controller.studentController;
+import com.example.onboardingmarvin.controller.feedbackController;
 import com.example.onboardingmarvin.helper.VolleyHelper;
-import com.example.onboardingmarvin.modal.StudentModal;
+import com.example.onboardingmarvin.modal.Student;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,11 +25,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity{
+import androidx.appcompat.app.AppCompatActivity;
 
-// Classes importeren
+public class FeedbackActivity extends  AppCompatActivity {
+
+    // Classes importeren
     private VolleyHelper helper;
     private studentController ctrlStudent;
+    private feedbackController ctrlFeedback;
 
     private TextView tvStudentGegevens;
 
@@ -48,6 +51,7 @@ public class MainActivity extends AppCompatActivity{
 
         // Student controller aanspreken
         this.ctrlStudent = new studentController(getBaseContext(), tvStudentGegevens, 5, iStudentnummer);
+        this.ctrlFeedback = new feedbackController(getBaseContext(), iStudentnummer);
 
         // Student ophalen via de api
         ctrlStudent.getStudent();
@@ -99,12 +103,12 @@ public class MainActivity extends AppCompatActivity{
             // Kijken of de gegevens correct zijn of niet
             if(rbGegevensCorrectNee.isChecked()){
                 // Gegevens doorsturen naar de student controller
-                ctrlStudent.opslaanGegevensCorrect(0);
+                ctrlFeedback.opslaanGegevensCorrect(0);
             }
             // Else if voor als er iets fout gaat wordt het niet zomaar geupdated in de database
             else if(rbGegevensCorrectJa.isChecked()){
                 // Gegevens doorsturen naar de student controller
-                ctrlStudent.opslaanGegevensCorrect(1);
+                ctrlFeedback.opslaanGegevensCorrect(1);
             }
         }catch(Exception error) {
             System.out.println(error);
@@ -128,6 +132,16 @@ public class MainActivity extends AppCompatActivity{
         sOpmerking = sOpmerking.replaceAll(" ", "%20");
 
         // Gegevens doorsturen naar de student controller
-        ctrlStudent.opslaanFeedback(iScore, sOpmerking);
+        ctrlFeedback.opslaanFeedback(iScore, sOpmerking);
+    }
+
+    public void vorigScherm(View view) {
+        Intent mainIntent = getIntent();
+        Bundle bundle = mainIntent.getExtras();
+        int iStudentnummer = bundle.getInt("student");
+
+        Intent intent = new Intent(this, OntdekRoosendaalActivity.class);
+        intent.putExtra("student", iStudentnummer);
+        startActivity(intent);
     }
 }
